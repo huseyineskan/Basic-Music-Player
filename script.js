@@ -141,6 +141,8 @@ const shuffle = () => {
   pauseSong();
   setPlayerDisplay();
   setPlayButtonAccessibleText();
+
+  nowPlaying(); //play first music
 };
 
 const deleteSong = (id) => {
@@ -172,6 +174,7 @@ const deleteSong = (id) => {
       renderSongs(sortSongs()); 
       setPlayButtonAccessibleText();
       resetButton.remove();
+      nowPlaying();
     });
 
   }
@@ -235,11 +238,7 @@ const setPlayButtonAccessibleText = () => {
 const getCurrentSongIndex = () => userData?.songs.indexOf(userData?.currentSong);
 
 playButton.addEventListener("click", () => {
-    if (userData?.currentSong === null) {
-    playSong(userData?.songs[0].id);
-  } else {
-    playSong(userData?.currentSong.id);
-  }
+    nowPlaying();
 });
 
 pauseButton.addEventListener("click",  pauseSong);
@@ -249,6 +248,14 @@ nextButton.addEventListener("click", playNextSong);
 previousButton.addEventListener("click", playPreviousSong);
 
 shuffleButton.addEventListener("click", shuffle);
+
+function nowPlaying() {
+  if (userData?.currentSong === null) {
+    playSong(userData?.songs[0].id);
+  } else {
+    playSong(userData?.currentSong.id);
+  }
+}
 
 audio.addEventListener("ended", () => {
   const currentSongIndex = getCurrentSongIndex();
